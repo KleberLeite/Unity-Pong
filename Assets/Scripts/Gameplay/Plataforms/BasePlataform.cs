@@ -5,8 +5,6 @@ public class BasePlataform : MonoBehaviour
     [Header("----- BasePlayer -----")]
     [Header("Movement Settings")]
     [SerializeField] protected float speed;
-    [SerializeField] private float maxDisplacementInYAxis;
-    [SerializeField] private GameObject plataformGO;
 
     [Header("Events")]
     [SerializeField] private VoidEventSO onGameStart;
@@ -36,7 +34,7 @@ public class BasePlataform : MonoBehaviour
 
     private void Awake()
     {
-        plataformRig = plataformGO.GetComponent<Rigidbody2D>();
+        plataformRig = GetComponent<Rigidbody2D>();
     }
 
     private void OnGameStart()
@@ -47,7 +45,7 @@ public class BasePlataform : MonoBehaviour
     virtual protected void OnReset()
     {
         canMove = false;
-        plataformGO.transform.localPosition = Vector3.zero;
+        transform.localPosition = Vector3.zero;
     }
 
     private void Update()
@@ -66,7 +64,7 @@ public class BasePlataform : MonoBehaviour
     private void Move()
     {
         Vector3 incrementPos = speed * Time.deltaTime * GetVectorOfDirection(currentDirection);
-        Vector3 newPos = incrementPos + plataformGO.transform.position;
+        Vector3 newPos = incrementPos + transform.position;
 
         plataformRig.MovePosition(newPos);
     }
