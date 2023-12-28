@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   onGameStart: {fileID: 11400000, guid: 1bb8e9408857c5e4b82807b1200b192c, type: 2}
-  onReset: {fileID: 0}
+  onReset: {fileID: 11400000, guid: a365cfe383f008e4d9cd8895f736ede2, type: 2}
 --- !u!212 &3190739230698876902
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: a1a9f6ed3997f2e4faf0e372c3c52620, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

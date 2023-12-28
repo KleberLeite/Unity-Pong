@@ -6,7 +6,7 @@ public class BasePlataform : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] protected float speed;
 
-    [Header("Events")]
+    [Header("Game Events")]
     [SerializeField] private VoidEventSO onGameStart;
     [SerializeField] protected VoidEventSO onReset;
 
@@ -78,10 +78,13 @@ public class BasePlataform : MonoBehaviour
     {
         if (col.gameObject.CompareTag(GameplayConsts.BALL_TAG))
         {
-            // to do: passar a referência da bola para o método
-            OnCollisionWithBall();
+            BaseBall ball = col.gameObject.GetComponent<BaseBall>();
+            OnCollisionWithBall(ball);
         }
     }
 
-    virtual protected void OnCollisionWithBall() { }
+    virtual protected void OnCollisionWithBall(BaseBall ball)
+    {
+        ball.OnCollisionWithPlayer(currentDirection);
+    }
 }
