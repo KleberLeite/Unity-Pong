@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class BasePlayerController : BasePlataform
 {
-    [Header("Input Settings")]
-    [SerializeField] private InputController input;
+    private InputController input;
+
+    public void Init(InputController input)
+    {
+        this.input = input;
+    }
 
     protected override Direction GetDirection()
     {

@@ -50,10 +50,11 @@ public class BasePlataform : MonoBehaviour
 
     private void Update()
     {
-        currentDirection = GetDirection();
+        if (!canMove)
+            return;
 
-        if (canMove)
-            Move();
+        currentDirection = GetDirection();
+        Move();
     }
 
     virtual protected Direction GetDirection()
