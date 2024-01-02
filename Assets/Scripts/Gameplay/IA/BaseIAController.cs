@@ -21,16 +21,18 @@ public class BaseIAController : BasePlataform
         onSpawnBall.OnEvent -= OnSpawnBall;
     }
 
+    private void FixedUpdate()
+    {
+        if (!canMove)
+            return;
+
+        Vector3 dir = new Vector3(0, Mathf.Clamp(currentBall.transform.position.y - transform.position.y, -speed * Time.deltaTime, speed * Time.deltaTime));
+
+        plataformRig.MovePosition(transform.position + dir);
+    }
+
     private void OnSpawnBall(BaseBall ball)
     {
         currentBall = ball;
-    }
-
-    protected override Direction GetDirection()
-    {
-        if (currentBall.transform.position.y >= transform.position.y)
-            return Direction.Up;
-
-        return Direction.Down;
     }
 }

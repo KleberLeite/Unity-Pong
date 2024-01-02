@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4aed24cc9b6c74e80b16862f7570f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 25
   onGameStart: {fileID: 11400000, guid: 1bb8e9408857c5e4b82807b1200b192c, type: 2}
   onReset: {fileID: 11400000, guid: a365cfe383f008e4d9cd8895f736ede2, type: 2}
   onSpawnBall: {fileID: 11400000, guid: 9f53fc13d70df2944ab9614e4647ed3f, type: 2}
