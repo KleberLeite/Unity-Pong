@@ -377,6 +377,10 @@ PrefabInstance:
       propertyPath: input
       value: 
       objectReference: {fileID: 604117311}
+    - target: {fileID: 4082035590016909200, guid: 3021c76db50ee8c479cb91d6f89fb7d5, type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5196849374616043792, guid: 3021c76db50ee8c479cb91d6f89fb7d5, type: 3}
       propertyPath: upKey
       value: 119
