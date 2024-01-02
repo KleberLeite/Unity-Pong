@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a286d6db98e24c46990a18dd33b89d6, type: 3}
-  m_Name: Game_OnGameStart
+  m_Script: {fileID: 11500000, guid: 698ffeebc5bb3794a911dc8f76ac6a19, type: 3}
+  m_Name: Game_OnSpawnBall
   m_EditorClassIdentifier: 
