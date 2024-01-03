@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f665c38cf4c279448e88ade7bbd4bdd, type: 3}
-  m_Name: Goal_OnLeftGoal
+  m_Name: Game_OnGoal
   m_EditorClassIdentifier: 

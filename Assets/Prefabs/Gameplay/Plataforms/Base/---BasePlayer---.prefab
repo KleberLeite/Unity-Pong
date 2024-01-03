@@ -103,7 +103,6 @@ MonoBehaviour:
   speed: 15
   onGameStart: {fileID: 11400000, guid: 1bb8e9408857c5e4b82807b1200b192c, type: 2}
   onReset: {fileID: 11400000, guid: a365cfe383f008e4d9cd8895f736ede2, type: 2}
-  input: {fileID: 0}
 --- !u!61 &3190739230698876901
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +149,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!1 &8926324353571547316
 GameObject:
   m_ObjectHideFlags: 0

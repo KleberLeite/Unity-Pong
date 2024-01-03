@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class BaseGameController : MonoBehaviour
@@ -21,16 +22,34 @@ public class BaseGameController : MonoBehaviour
     [SerializeField] private BallEventSO onSpawnBall;
     [SerializeField] private VoidEventSO onGameStart;
     [SerializeField] private VoidEventSO onRoundEnd;
+    [SerializeField] private GoalSideEventSO onGoal;
+
+    [Header("Goals Settings")]
+    [SerializeField] private TMP_Text leftGoalsText;
+    [SerializeField] private TMP_Text rightGoalsText;
 
     private int currentPlayers = 0;
     private BaseBall currentBall;
     private IEnumerator countdown;
+
+    private int goalsLeft;
+    private int goalsRight;
 
     private enum GameState
     {
         PreparingGame,
         PreparingRound,
         Playing
+    }
+
+    private void OnEnable()
+    {
+        onGoal.OnEvent += OnGoal;
+    }
+
+    private void OnDisable()
+    {
+        onGoal.OnEvent -= OnGoal;
     }
 
     private void ChangeState(GameState newState)
@@ -108,6 +127,9 @@ public class BaseGameController : MonoBehaviour
                 break;
         }
 
+        goalsLeft = 0;
+        goalsRight = 0;
+
         ChangeState(GameState.PreparingRound);
     }
 
@@ -166,5 +188,27 @@ public class BaseGameController : MonoBehaviour
     {
         currentBall = Instantiate(ballPrefab, ballHolder);
         onSpawnBall.Raise(currentBall);
+    }
+
+    private void OnGoal(GoalSide side)
+    {
+        switch (side)
+        {
+            case GoalSide.Left:
+                goalsLeft++;
+                break;
+            case GoalSide.Right:
+                goalsRight++;
+                break;
+        }
+
+        UpdateGoalsText();
+        ChangeState(GameState.PreparingRound);
+    }
+
+    private void UpdateGoalsText()
+    {
+        leftGoalsText.text = goalsLeft.ToString("00");
+        rightGoalsText.text = goalsRight.ToString("00");
     }
 }
