@@ -23,7 +23,7 @@ public class BaseIAController : BasePlataform
 
     private void FixedUpdate()
     {
-        if (!canMove)
+        if (!canMove || !currentBall)
             return;
 
         Vector3 dir = new Vector3(0, Mathf.Clamp(currentBall.transform.position.y - transform.position.y, -speed * Time.deltaTime, speed * Time.deltaTime));
