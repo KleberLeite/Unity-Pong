@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0178197e17e040d4ab7450beefb07cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 30
   onGameStart: {fileID: 11400000, guid: 1bb8e9408857c5e4b82807b1200b192c, type: 2}
   onReset: {fileID: 11400000, guid: a365cfe383f008e4d9cd8895f736ede2, type: 2}
 --- !u!212 &3190739230698876902
