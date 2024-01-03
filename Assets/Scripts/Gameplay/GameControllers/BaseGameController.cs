@@ -105,12 +105,34 @@ public class BaseGameController : MonoBehaviour
         Debug.Log($"GameController: Preparing game with {currentPlayers} players");
 
         DestroyCurrentArena();
+
         if (countdown != null)
         {
             StopCoroutine(countdown);
             countdown = null;
         }
 
+        SpawnPlayers();
+
+        goalsLeft = 0;
+        goalsRight = 0;
+        UpdateGoalsText();
+
+        ChangeState(GameState.PreparingRound);
+    }
+
+    private void DestroyCurrentArena()
+    {
+        if (leftPlataformHolder.childCount != 0)
+            Destroy(leftPlataformHolder.GetChild(0).gameObject);
+        if (rightPlataformHolder.childCount != 0)
+            Destroy(rightPlataformHolder.GetChild(0).gameObject);
+        if (currentBall)
+            Destroy(currentBall.gameObject);
+    }
+
+    private void SpawnPlayers()
+    {
         switch (currentPlayers)
         {
             case 0:
@@ -126,21 +148,6 @@ public class BaseGameController : MonoBehaviour
                 SpawnPlayer(rightPlataformHolder, rightPlayerInput);
                 break;
         }
-
-        goalsLeft = 0;
-        goalsRight = 0;
-
-        ChangeState(GameState.PreparingRound);
-    }
-
-    private void DestroyCurrentArena()
-    {
-        if (leftPlataformHolder.childCount != 0)
-            Destroy(leftPlataformHolder.GetChild(0).gameObject);
-        if (rightPlataformHolder.childCount != 0)
-            Destroy(rightPlataformHolder.GetChild(0).gameObject);
-        if (currentBall)
-            Destroy(currentBall.gameObject);
     }
 
     private void SpawnPlayer(Transform holder, InputController input)
@@ -164,6 +171,12 @@ public class BaseGameController : MonoBehaviour
         StartCoroutine(countdown);
     }
 
+    private void SpawnBall()
+    {
+        currentBall = Instantiate(ballPrefab, ballHolder);
+        onSpawnBall.Raise(currentBall);
+    }
+
     private IEnumerator Countdown()
     {
         for (int i = 3; i >= 0; i--)
@@ -182,12 +195,6 @@ public class BaseGameController : MonoBehaviour
         }
 
         ChangeState(GameState.Playing);
-    }
-
-    private void SpawnBall()
-    {
-        currentBall = Instantiate(ballPrefab, ballHolder);
-        onSpawnBall.Raise(currentBall);
     }
 
     private void OnGoal(GoalSide side)
