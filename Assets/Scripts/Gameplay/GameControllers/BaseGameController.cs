@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BaseGameController : MonoBehaviour
 {
-    private int MAX_PLAYERS = 2;
-
     [Header("Players Settings")]
     [SerializeField] private Transform leftPlataformHolder;
     [SerializeField] private Transform rightPlataformHolder;
@@ -18,6 +16,9 @@ public class BaseGameController : MonoBehaviour
     [SerializeField] private BaseBall ballPrefab;
     [SerializeField] private Transform ballHolder;
 
+    [Header("PlayersCount Events")]
+    [SerializeField] private IntEventSO onPlayersCountChanged;
+
     [Header("Game Events")]
     [SerializeField] private BallEventSO onSpawnBall;
     [SerializeField] private VoidEventSO onGameStart;
@@ -28,7 +29,6 @@ public class BaseGameController : MonoBehaviour
     [SerializeField] private TMP_Text leftGoalsText;
     [SerializeField] private TMP_Text rightGoalsText;
 
-    private int currentPlayers = 0;
     private BaseBall currentBall;
     private IEnumerator countdown;
 
@@ -45,20 +45,21 @@ public class BaseGameController : MonoBehaviour
     private void OnEnable()
     {
         onGoal.OnEvent += OnGoal;
+
+        onPlayersCountChanged.OnEvent += OnPlayersCountChanged;
     }
 
     private void OnDisable()
     {
         onGoal.OnEvent -= OnGoal;
+
+        onPlayersCountChanged.OnEvent -= OnPlayersCountChanged;
     }
 
     private void ChangeState(GameState newState)
     {
         switch (newState)
         {
-            case GameState.PreparingGame:
-                PrepareGame();
-                break;
             case GameState.PreparingRound:
                 PrepareRound();
                 break;
@@ -71,38 +72,17 @@ public class BaseGameController : MonoBehaviour
     private void Start()
     {
         ChangeState(GameState.PreparingGame);
+        PrepareGame(0);
     }
 
-    private void Update()
+    private void OnPlayersCountChanged(int count)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            TryAddNewPlayer();
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-            TryRemovePlayer();
+        PrepareGame(count);
     }
 
-    private void TryAddNewPlayer()
+    private void PrepareGame(int playersCount)
     {
-        if (currentPlayers == MAX_PLAYERS)
-            return;
-
-        currentPlayers++;
-        ChangeState(GameState.PreparingGame);
-    }
-
-    private void TryRemovePlayer()
-    {
-        if (currentPlayers == 0)
-            return;
-
-        currentPlayers--;
-        ChangeState(GameState.PreparingGame);
-    }
-
-    private void PrepareGame()
-    {
-        Debug.Log($"GameController: Preparing game with {currentPlayers} players");
+        Debug.Log($"GameController: Preparing game with {playersCount} players");
 
         DestroyCurrentArena();
 
@@ -112,7 +92,7 @@ public class BaseGameController : MonoBehaviour
             countdown = null;
         }
 
-        SpawnPlayers();
+        SpawnPlayers(playersCount);
 
         goalsLeft = 0;
         goalsRight = 0;
@@ -131,9 +111,9 @@ public class BaseGameController : MonoBehaviour
             Destroy(currentBall.gameObject);
     }
 
-    private void SpawnPlayers()
+    private void SpawnPlayers(int count)
     {
-        switch (currentPlayers)
+        switch (count)
         {
             case 0:
                 SpawnIA(leftPlataformHolder);
