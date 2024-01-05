@@ -6,7 +6,7 @@ public class BasePlataform : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] protected float speed;
 
-    [Header("Events")]
+    [Header("Game Events")]
     [SerializeField] private VoidEventSO onGameStart;
     [SerializeField] protected VoidEventSO onReset;
 
@@ -48,40 +48,17 @@ public class BasePlataform : MonoBehaviour
         transform.localPosition = Vector3.zero;
     }
 
-    private void Update()
-    {
-        currentDirection = GetDirection();
-
-        if (canMove)
-            Move();
-    }
-
-    virtual protected Direction GetDirection()
-    {
-        return Direction.None;
-    }
-
-    private void Move()
-    {
-        Vector3 incrementPos = speed * Time.deltaTime * GetVectorOfDirection(currentDirection);
-        Vector3 newPos = incrementPos + transform.position;
-
-        plataformRig.MovePosition(newPos);
-    }
-
-    protected Vector2 GetVectorOfDirection(Direction direction)
-    {
-        return directions[(int)direction];
-    }
-
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag(GameplayConsts.BALL_TAG))
         {
-            // to do: passar a referência da bola para o método
-            OnCollisionWithBall();
+            BaseBall ball = col.gameObject.GetComponent<BaseBall>();
+            OnCollisionWithBall(ball);
         }
     }
 
-    virtual protected void OnCollisionWithBall() { }
+    virtual protected void OnCollisionWithBall(BaseBall ball)
+    {
+        ball.OnCollisionWithPlayer(currentDirection);
+    }
 }
