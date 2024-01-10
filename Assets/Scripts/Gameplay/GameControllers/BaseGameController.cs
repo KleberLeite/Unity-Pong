@@ -29,6 +29,9 @@ public class BaseGameController : MonoBehaviour
     [SerializeField] private TMP_Text leftGoalsText;
     [SerializeField] private TMP_Text rightGoalsText;
 
+    [Header("Countdown Settings")]
+    [SerializeField] private TMP_Text countdownText;
+
     private BaseBall currentBall;
     private IEnumerator countdown;
 
@@ -159,20 +162,25 @@ public class BaseGameController : MonoBehaviour
 
     private IEnumerator Countdown()
     {
+        countdownText.gameObject.SetActive(true);
+
         for (int i = 3; i >= 0; i--)
         {
             if (i == 0)
             {
-                Debug.Log("GameController: Round started!");
+                countdownText.text = "Go!";
                 yield return new WaitForSeconds(.3f);
             }
             else
             {
-                Debug.Log($"GameController: Round starting in {i}");
+                countdownText.text = i.ToString();
                 yield return new WaitForSeconds(1f);
             }
 
         }
+
+        yield return new WaitForSeconds(.15f);
+        countdownText.gameObject.SetActive(false);
 
         ChangeState(GameState.Playing);
     }
