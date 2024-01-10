@@ -5,22 +5,14 @@ public class BasePlataform : MonoBehaviour
     [Header("----- BasePlayer -----")]
     [Header("Movement Settings")]
     [SerializeField] protected float speed;
+    [SerializeField] protected float positionClamp;
 
     [Header("Game Events")]
     [SerializeField] private VoidEventSO onGameStart;
     [SerializeField] protected VoidEventSO onReset;
 
-    protected Rigidbody2D plataformRig;
-
     protected Direction currentDirection;
     protected bool canMove;
-
-    protected Vector2[] directions = new Vector2[]
-    {
-        Vector2.zero,
-        Vector2.up,
-        Vector2.down
-    };
 
     virtual protected void OnEnable()
     {
@@ -32,9 +24,10 @@ public class BasePlataform : MonoBehaviour
         onGameStart.OnEvent -= OnGameStart;
     }
 
-    private void Awake()
+    public void Init(GoalSide side)
     {
-        plataformRig = GetComponent<Rigidbody2D>();
+        if (side == GoalSide.Right)
+            transform.eulerAngles = new Vector3(0, 0, 180);
     }
 
     private void OnGameStart()

@@ -20,16 +20,21 @@ public class BasePlayerController : BasePlataform
 
     private void Move()
     {
-        Vector3 incrementPos = speed * Time.deltaTime * GetVectorOfDirection(currentDirection);
-        Vector3 newPos = incrementPos + transform.position;
+        float translation = speed * Time.deltaTime * GetScaleByDirection(currentDirection);
+        float targetY = transform.position.y + translation;
+        targetY = Mathf.Clamp(targetY, -positionClamp, positionClamp);
 
-        plataformRig.MovePosition(newPos);
+        transform.position = new Vector3(transform.position.x, targetY);
     }
 
-    protected Vector2 GetVectorOfDirection(Direction direction)
-    {
-        return directions[(int)direction];
-    }
+    protected float GetScaleByDirection(Direction direction)
+        => direction switch
+        {
+            Direction.None => 0,
+            Direction.Up => 1,
+            Direction.Down => -1,
+            _ => throw new System.NotImplementedException()
+        };
 
     private Direction GetDirection()
     {

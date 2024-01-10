@@ -119,30 +119,35 @@ public class BaseGameController : MonoBehaviour
         switch (count)
         {
             case 0:
-                SpawnIA(leftPlataformHolder);
-                SpawnIA(rightPlataformHolder);
+                SpawnIA(GoalSide.Left);
+                SpawnIA(GoalSide.Right);
                 break;
             case 1:
-                SpawnPlayer(leftPlataformHolder, leftPlayerInput);
-                SpawnIA(rightPlataformHolder);
+                SpawnPlayer(GoalSide.Left);
+                SpawnIA(GoalSide.Right);
                 break;
             case 2:
-                SpawnPlayer(leftPlataformHolder, leftPlayerInput);
-                SpawnPlayer(rightPlataformHolder, rightPlayerInput);
+                SpawnPlayer(GoalSide.Left);
+                SpawnPlayer(GoalSide.Right);
                 break;
         }
     }
 
-    private void SpawnPlayer(Transform holder, InputController input)
+    private void SpawnPlayer(GoalSide side)
     {
-        BasePlayerController player = Instantiate(playerPrefab, holder);
-        player.Init(input);
+        BasePlayerController player = Instantiate(playerPrefab, GetPlataformHolderBySide(side));
+        player.Init(side == GoalSide.Left ? leftPlayerInput : rightPlayerInput);
+        player.Init(side);
     }
 
-    private void SpawnIA(Transform holder)
+    private void SpawnIA(GoalSide side)
     {
-        Instantiate(iaPrefab, holder);
+        BaseIAController ia = Instantiate(iaPrefab, GetPlataformHolderBySide(side));
+        ia.Init(side);
     }
+
+    private Transform GetPlataformHolderBySide(GoalSide side)
+        => side == GoalSide.Left ? leftPlataformHolder : rightPlataformHolder;
 
     private void PrepareRound()
     {

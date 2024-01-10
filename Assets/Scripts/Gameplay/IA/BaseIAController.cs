@@ -26,9 +26,14 @@ public class BaseIAController : BasePlataform
         if (!canMove || !currentBall)
             return;
 
-        Vector3 dir = new Vector3(0, Mathf.Clamp(currentBall.transform.position.y - transform.position.y, -speed * Time.deltaTime, speed * Time.deltaTime));
+        float translation = currentBall.transform.position.y - transform.position.y;
+        // use this to stop the AI ​​from moving faster than configured
+        translation = Mathf.Clamp(translation, -speed * Time.deltaTime, speed * Time.deltaTime);
+        // use this so the AI ​​doesn't leave the arena
+        float targetY = transform.position.y + translation;
+        targetY = Mathf.Clamp(targetY, -positionClamp, positionClamp);
 
-        plataformRig.MovePosition(transform.position + dir);
+        transform.position = new Vector3(transform.position.x, targetY);
     }
 
     private void OnSpawnBall(BaseBall ball)
